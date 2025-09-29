@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import io.c4us.masterbackend.constant.DTOs.CommandDto;
+import io.c4us.masterbackend.DTOs.CommandDto;
 import io.c4us.masterbackend.domain.Command;
 import io.c4us.masterbackend.domain.CommandLine;
 
