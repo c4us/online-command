@@ -19,6 +19,8 @@ public class LigneCommande {
     private String productName; // Nom du produit commandé
     private int quantity;        // Quantité
     private double unitPrice;     // Prix unitaire
+    private String codeStructure;
+
 
     @ManyToOne(fetch = FetchType.LAZY) // Plusieurs lignes de commande peuvent appartenir à une seule commande
     @JoinColumn(name = "order_id", nullable = false)

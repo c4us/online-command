@@ -33,4 +33,6 @@ public class Product implements Serializable{
     private String categoryId;
     @Transient 
     private Category categoryDetails; 
+    private String codeStructure;
+
 }

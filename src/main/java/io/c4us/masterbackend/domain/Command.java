@@ -25,6 +25,8 @@ public class Command {
     private String status = "PENDING";
     private LocalDateTime orderDate = LocalDateTime.now();
     private double totalAmount; // Calculé par le service
+    private String codeStructure;
+
 
     // Une commande a plusieurs lignes de commande (items)
     // CascadeType.ALL: Si l'Order est supprimée, les OrderItems associés le sont aussi.

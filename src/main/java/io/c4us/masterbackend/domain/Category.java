@@ -29,4 +29,5 @@ public class Category implements Serializable{
     private String nameCat;
     private String description;
     private Date createdDate;
+    private String codeStructure;
 }
