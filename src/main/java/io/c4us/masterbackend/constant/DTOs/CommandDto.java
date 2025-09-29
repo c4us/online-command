@@ -7,7 +7,7 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class PanierDto {    
+public class CommandDto {    
     private String customerName;
     private String customerId;
     private List<LigneCommandDTO> items;

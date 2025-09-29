@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import io.c4us.masterbackend.constant.DTOs.PanierDto;
+import io.c4us.masterbackend.constant.DTOs.CommandDto;
 import io.c4us.masterbackend.domain.Command;
-import io.c4us.masterbackend.domain.LigneCommande;
+import io.c4us.masterbackend.domain.CommandLine;
 
 import io.c4us.masterbackend.exception.ResourceNotFoundException;
 import io.c4us.masterbackend.repo.CommandRepo;
@@ -31,19 +31,19 @@ public class CommandService {
     }*/  
 
     @Transactional // S'assure que toute l'opération est une transaction unique
-    public Command createCommand(PanierDto panier) {
+    public Command createCommand(CommandDto commandDto) {
         Command command = new Command();
-        command.setCustomerName(panier.getCustomerName());
+        command.setCustomerName(commandDto.getCustomerName());
 
         double totalAmount = 0;
-        for (var itemLigneCommand : panier.getItems()) {
-            LigneCommande ligneCommande  = new LigneCommande();
-            ligneCommande.setProductName(itemLigneCommand.getProductName());
-            ligneCommande.setQuantity(itemLigneCommand.getQuantity());
-            ligneCommande.setUnitPrice(itemLigneCommand.getUnitPrice());
+        for (var itemLigneCommand : commandDto.getItems()) {
+            CommandLine commandLine  = new CommandLine();
+            commandLine.setProductName(itemLigneCommand.getProductName());
+            commandLine.setQuantity(itemLigneCommand.getQuantity());
+            commandLine.setUnitPrice(itemLigneCommand.getUnitPrice());
 
-            command.addLigneCommande(ligneCommande); // Ajoute l'item et établit la relation bidirectionnelle
-            totalAmount += ligneCommande.getSubTotal();
+            command.addLigneCommande(commandLine); // Ajoute l'item et établit la relation bidirectionnelle
+            totalAmount += commandLine.getSubTotal();
         }
 
         command.setTotalAmount(totalAmount);

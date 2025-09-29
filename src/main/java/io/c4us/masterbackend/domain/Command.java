@@ -31,10 +31,10 @@ public class Command {
     // Une commande a plusieurs lignes de commande (items)
     // CascadeType.ALL: Si l'Order est supprimée, les OrderItems associés le sont aussi.
     @OneToMany(mappedBy = "command", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<LigneCommande> items = new ArrayList<>();
+    private List<CommandLine> items = new ArrayList<>();
 
     // Méthode utilitaire pour synchroniser la relation bidirectionnelle
-    public void addLigneCommande(LigneCommande ligneCommande) {
+    public void addLigneCommande(CommandLine ligneCommande) {
         items.add(ligneCommande);
         ligneCommande.setCommand(this);
 

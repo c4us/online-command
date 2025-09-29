@@ -11,7 +11,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class LigneCommande {
+public class CommandLine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
