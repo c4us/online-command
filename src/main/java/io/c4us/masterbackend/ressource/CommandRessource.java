@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.c4us.masterbackend.constant.DTOs.CommandDto;
+import io.c4us.masterbackend.DTOs.CommandDto;
 import io.c4us.masterbackend.domain.Command;
 import io.c4us.masterbackend.service.CommandService;
 import jakarta.validation.Valid;
@@ -33,8 +33,8 @@ public class CommandRessource {
     // POST /api/orders : Créer une nouvelle commande (utilise le DTO)
     @PostMapping
     // @Valid active la validation du DTO
-    public ResponseEntity<Command> createCommand(@Valid @RequestBody CommandDto commandDtoDto) {
-        Command savedCommand = commandService.createCommand(commandDtoDto);
+    public ResponseEntity<Command> createCommand(@Valid @RequestBody CommandDto commandDto) {
+        Command savedCommand = commandService.createCommand(commandDto);
         return new ResponseEntity<>(savedCommand, HttpStatus.CREATED);
     }
 

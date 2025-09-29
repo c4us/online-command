@@ -1,9 +1,9 @@
-package io.c4us.masterbackend.constant.DTOs;
+package io.c4us.masterbackend.DTOs;
 
 import lombok.Data;
 
 @Data
-public class LigneCommandDTO {
+public class CommandLineDTO {
     private String productName;
     private int quantity;
     private double unitPrice;

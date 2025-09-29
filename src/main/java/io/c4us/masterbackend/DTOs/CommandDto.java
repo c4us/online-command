@@ -1,7 +1,4 @@
-package io.c4us.masterbackend.constant.DTOs;
-
-
-
+package io.c4us.masterbackend.DTOs;
 import java.util.List;
 
 import lombok.Data;
@@ -10,6 +7,6 @@ import lombok.Data;
 public class CommandDto {    
     private String customerName;
     private String customerId;
-    private List<LigneCommandDTO> items;
+    private List<CommandLineDTO> items;
 
 }

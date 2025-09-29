@@ -22,6 +22,7 @@ public class CommandLine {
     private String codeStructure;
 
 
+    
     @ManyToOne(fetch = FetchType.LAZY) // Plusieurs lignes de commande peuvent appartenir à une seule commande
     @JoinColumn(name = "order_id", nullable = false)
     private Command command; // Référence à la commande parente

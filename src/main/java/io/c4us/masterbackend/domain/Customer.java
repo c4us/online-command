@@ -28,6 +28,6 @@ public class Customer implements Serializable {
     private String id;
     private String numCust;
     private String codePin;
-    private boolean isActive= true;
+   // private boolean isActive= true;
 
 }
