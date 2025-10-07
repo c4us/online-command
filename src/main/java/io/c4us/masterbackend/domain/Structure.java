@@ -35,5 +35,4 @@ public class Structure implements Serializable {
     private String typeStructure;
     private String disponibiliteStructure;
     private String isActive;
-
 }

@@ -34,5 +34,6 @@ public class Product implements Serializable{
     @Transient 
     private Category categoryDetails; 
     private String codeStructure;
+    private boolean isFavoris;
 
 }

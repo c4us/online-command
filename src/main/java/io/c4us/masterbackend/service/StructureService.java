@@ -14,11 +14,11 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional(rollbackOn = Exception.class)
 @RequiredArgsConstructor
 public class StructureService {
-    
+
     @Autowired
     private StructureRepo structureRepo;
 
-     public Structure createStructure(Structure struct) {
+    public Structure createStructure(Structure struct) {
         return structureRepo.save(struct);
     }
 }

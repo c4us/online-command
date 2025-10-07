@@ -13,14 +13,15 @@ import io.c4us.masterbackend.service.StructureService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/structure")
+@RequestMapping("/structure/")
 @RequiredArgsConstructor
 public class StructureRessource {
 
-    private StructureService structureService;
+    private final StructureService structureService;
 
+    
     @PostMapping
-    public ResponseEntity<Structure> createCustomer(@RequestBody Structure struct) {
+    public ResponseEntity<Structure> createStructure(@RequestBody Structure struct) {
         try {
             return ResponseEntity.created(URI.create("/structure/userID"))
                     .body(structureService.createStructure(struct));
