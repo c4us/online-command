@@ -1,13 +1,20 @@
 package io.c4us.masterbackend.service;
 
-import java.time.LocalDateTime;
+import static io.c4us.masterbackend.constant.Constant.PHOTO_DIRECTORY;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
-import java.util.UUID;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import io.c4us.masterbackend.config.EmailService;
 import io.c4us.masterbackend.domain.Structure;
 import io.c4us.masterbackend.repo.StructureRepo;
 import jakarta.transaction.Transactional;
@@ -24,32 +31,41 @@ public class StructureService {
     private StructureRepo structureRepo;
 
     public Structure createStructure(Structure struct) {
-        struct.setConfirmationToken(generateAndSetToken(struct));
         Structure st = structureRepo.save(struct);
         return st;
 
     }
 
-    public String generateAndSetToken(Structure structure) {
-        // 1. Générer un Token robuste (UUID)
-        String token = UUID.randomUUID().toString();
+    private final Function<String, String> fileExtension = filename -> Optional.of(filename)
+            .filter(name -> name.contains("."))
+            .map(name -> "." + name.substring(filename.lastIndexOf(".") + 1)).orElse(".png");
+    private final BiFunction<String, MultipartFile, String> photoFunction = (id, image) -> {
+        String filename = id + fileExtension.apply(image.getOriginalFilename());
+        try {
+            Path fileStorageLocation = Paths.get(PHOTO_DIRECTORY).toAbsolutePath().normalize();
+            if (!Files.exists(fileStorageLocation)) {
+                Files.createDirectory(fileStorageLocation);
+            }
+            Files.copy(image.getInputStream(), fileStorageLocation.resolve(filename), REPLACE_EXISTING);
+            return ServletUriComponentsBuilder.fromCurrentContextPath().path("/structures/image/" + filename).toUriString();
+        } catch (Exception exception) {
+            throw new RuntimeException();
+        }
 
-        // 2. Définir la durée d'expiration (24 heures)
-        LocalDateTime expiryDate = LocalDateTime.now().plusHours(24);
+    };
 
-        // 3. Mettre à jour la structure
-        structure.setConfirmationToken(token);
-        structure.setTokenExpiryDate(expiryDate);
+    public String uploadPhoto(String id, MultipartFile file) {
+        log.info("Upload photo for structure : {}", id);
+        Structure struct = getStructure(id);
+        String photoUrl = photoFunction.apply(id, file);
+        struct.setStructPhotoUrl(photoUrl);
+        structureRepo.save(struct);
+        return photoUrl;
 
-        // Le service doit ensuite persister ces changements
-        // (repository.save(structure))
-
-        return token;
     }
 
-    public Optional<Structure> findByConfirmationToken(String token) {
-        // L'appel utilise l'objet injecté structureRepository
-        return structureRepo.findByConfirmationToken(token);
+    public Structure getStructure(String id) {
+        return structureRepo.findById(id).orElseThrow(() -> new RuntimeException("Structure not found : Id"+id));
     }
 
 }

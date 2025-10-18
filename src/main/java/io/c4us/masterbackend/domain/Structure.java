@@ -34,12 +34,12 @@ public class Structure implements Serializable {
     private String codePoste;
     private String structPhotoUrl;
     private String emailStructure;
-    private String codeStructure;
     private String typeStructure;
     private String disponibiliteStructure;
+    private String geoLocStructure;
    // @Column(nullable = false)
-    private String isActive;
-    @Column(unique = true)
-    private String confirmationToken; 
-    private LocalDateTime tokenExpiryDate;
+    private boolean isActive =true;
+    private LocalDateTime createdDate = LocalDateTime.now(); 
+    private String descriptionStructure;
+    
 }
