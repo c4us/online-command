@@ -29,11 +29,12 @@ public class Product implements Serializable{
     private String productId;
     private String productPhotoUrl;
     private String productName;
-    private Date  createdDate;
-    private String categoryId;
+    private double productPrice;
+    private double productQte;
     @Transient 
     private Category categoryDetails; 
-    private String codeStructure;
     private boolean isFavoris;
+    private Date  createdDate;
+    private String categoryId;
 
 }

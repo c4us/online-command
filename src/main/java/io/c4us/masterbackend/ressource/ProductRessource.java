@@ -6,7 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,9 +42,15 @@ public class ProductRessource {
         }
     }
 
-    @PostMapping("/update")
-    public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
-        return ResponseEntity.created(URI.create("/product/update/userID")).body(productService.updateProduct(product));
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable String id, @RequestBody Product product) {
+        try {
+            Product updated = productService.updateProduct(id, product);
+            return ResponseEntity.ok(updated);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping
@@ -79,4 +84,5 @@ public class ProductRessource {
     public List<Product> getProductsByCategoryId(@PathVariable String categoryId) {
         return productService.getAllProductByCat(categoryId);
     }
+
 }

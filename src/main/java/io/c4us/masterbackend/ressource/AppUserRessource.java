@@ -121,7 +121,8 @@ public class AppUserRessource {
         return ResponseEntity.ok(Map.of(
                 "message", "Connexion réussie",
                 "userName", user.getUserName(),
-                "userEmail", user.getUserEmail()));
+                "userEmail", user.getUserEmail(),
+                "id",user.getId()));
     }
 
 }

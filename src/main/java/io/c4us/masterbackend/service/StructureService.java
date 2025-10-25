@@ -6,11 +6,13 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -47,7 +49,7 @@ public class StructureService {
                 Files.createDirectory(fileStorageLocation);
             }
             Files.copy(image.getInputStream(), fileStorageLocation.resolve(filename), REPLACE_EXISTING);
-            return ServletUriComponentsBuilder.fromCurrentContextPath().path("/structures/image/" + filename).toUriString();
+            return ServletUriComponentsBuilder.fromCurrentContextPath().path("/structure/image/" + filename).toUriString();
         } catch (Exception exception) {
             throw new RuntimeException();
         }
@@ -67,5 +69,10 @@ public class StructureService {
     public Structure getStructure(String id) {
         return structureRepo.findById(id).orElseThrow(() -> new RuntimeException("Structure not found : Id"+id));
     }
+
+    public List<Structure> getStructuresByUser(String userId) {
+        return structureRepo.findByCreatedUserId(userId);
+    }
+
 
 }

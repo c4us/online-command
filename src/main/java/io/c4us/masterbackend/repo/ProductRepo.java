@@ -11,5 +11,7 @@ public interface ProductRepo extends JpaRepository<Product, String>{
     @SuppressWarnings("null")
     Optional<Product> findById(String id);
     List<Product> findByCategoryId(String idCat);
+    long countByCategoryId(String categoryId);
+
     
 }

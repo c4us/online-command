@@ -37,9 +37,10 @@ public class Structure implements Serializable {
     private String typeStructure;
     private String disponibiliteStructure;
     private String geoLocStructure;
-   // @Column(nullable = false)
     private boolean isActive =true;
     private LocalDateTime createdDate = LocalDateTime.now(); 
     private String descriptionStructure;
+    private String createdUserId;
+    private String codeStructure;
     
 }

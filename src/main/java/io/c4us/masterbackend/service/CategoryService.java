@@ -1,5 +1,7 @@
 package io.c4us.masterbackend.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -7,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import io.c4us.masterbackend.domain.Category;
 import io.c4us.masterbackend.repo.CategoryRepo;
+import io.c4us.masterbackend.repo.ProductRepo;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +24,9 @@ public class CategoryService {
     @Autowired
     private CategoryRepo categoryRepo;
 
+    @Autowired
+    private ProductRepo productRepo;
+
     public Category delCategory(String id) {
         try {
             Category category = getCategory(id);
@@ -32,7 +38,7 @@ public class CategoryService {
     }
 
     public Category getCategory(String id) {
-        return categoryRepo.findById(id).orElseThrow(() -> new RuntimeException("Categoty Not found"));
+        return categoryRepo.findById(id).orElseThrow(() -> new RuntimeException("Category Not found"));
     }
 
     public Page<Category> getAllCategories(int page, int size) {
@@ -54,6 +60,30 @@ public class CategoryService {
 
     public Category createCategory(Category category) {
         return categoryRepo.save(category);
+    }
+
+    public List<Category> getCategoryByStructure(String codeStruct) {
+        return categoryRepo.findByCodeStructure(codeStruct);
+    }
+
+    @Transactional
+    public Category updateActiveStatus(String id, boolean newStatus) {
+        Category category = categoryRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Catégorie non trouvée : " + id));
+
+        category.setActive(newStatus); // active = true ou false
+        return categoryRepo.save(category);
+    }
+
+    public List<Category> findByCodeStructure() {
+        List<Category> categories = categoryRepo.findAll();
+        // 🔹 Ajouter le nombre de produits pour chaque catégorie
+        categories.forEach(cat -> {
+            long count = productRepo.countByCategoryId(cat.getId());
+            cat.setProductCount(count);
+        });
+
+        return categories;
     }
 
 }

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -43,7 +44,7 @@ public class StructureRessource {
         }
     }
 
-    @GetMapping(path = "/structures/image/{filename}", produces = { org.springframework.http.MediaType.IMAGE_PNG_VALUE,
+    @GetMapping(path = "/image/{filename}", produces = { org.springframework.http.MediaType.IMAGE_PNG_VALUE,
             org.springframework.http.MediaType.IMAGE_JPEG_VALUE })
     public byte[] getPhoto(@PathVariable("filename") String filename) throws IOException {
         return Files.readAllBytes(Paths.get(PHOTO_DIRECTORY + filename));
@@ -55,4 +56,8 @@ public class StructureRessource {
         return ResponseEntity.ok().body(structureService.uploadPhoto(id, file));
     }
 
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Structure>> getByUser(@PathVariable String userId) {
+        return ResponseEntity.ok(structureService.getStructuresByUser(userId));
+    }
 }

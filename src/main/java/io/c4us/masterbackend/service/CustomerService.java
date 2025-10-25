@@ -37,7 +37,6 @@ public class CustomerService {
     }
 
     public Page<Customer> getAllCustomer(int page, int size) {
-
         return customerRepo.findAll(PageRequest.of(page, size, Sort.by("createdDate")));
 
     }

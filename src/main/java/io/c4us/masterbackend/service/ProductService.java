@@ -71,15 +71,16 @@ public class ProductService {
         }
     }
 
-    public Product updateProduct(Product newcar) {
-        try {
-            Product product = getProduct(newcar.getId());
-            product.setProductId(newcar.getProductId());
-            productRepo.save(product);
-            return product;
-        } catch (Exception exception) {
-            throw new RuntimeException();
-        }
+    public Product updateProduct(String id, Product updatedProduct) {
+        Product existing = productRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Produit introuvable avec l'id: " + id));
+        existing.setProductName(updatedProduct.getProductName());
+        existing.setProductPrice(updatedProduct.getProductPrice());
+        existing.setProductPhotoUrl(updatedProduct.getProductPhotoUrl());
+        existing.setProductQte(updatedProduct.getProductQte());
+        existing.setCategoryId(updatedProduct.getCategoryId());
+
+        return productRepo.save(existing);
     }
 
     public Product createProduct(Product product) {
