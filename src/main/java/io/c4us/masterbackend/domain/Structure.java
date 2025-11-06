@@ -42,5 +42,6 @@ public class Structure implements Serializable {
     private String descriptionStructure;
     private String createdUserId;
     private String codeStructure;
+    private String planStructure;
     
 }

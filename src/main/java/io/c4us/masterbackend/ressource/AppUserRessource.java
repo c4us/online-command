@@ -26,8 +26,8 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:5173") // <-- autorise ton frontend
-public class AppUserRessource {
+@CrossOrigin(origins = "http://localhost:5173")
+public class AppUserRessource { 
 
     @Autowired
     private final AppUserService appUserService;
@@ -105,24 +105,38 @@ public class AppUserRessource {
         }
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody LoginRequest request) {
-        AppUser user = appUserRepo.findByUserEmail(request.getEmail());
+@PostMapping("/login")
+public ResponseEntity<?> loginUser(@RequestBody LoginRequest request) {
+    String identifier = request.getIdentifier();
+    String password = request.getPassword();
 
-        if (user == null || !passwordEncoder.matches(request.getPassword(), user.getUserPassword())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email ou mot de passe incorrect");
-        }
-
-        if (!user.isActive()) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body("Veuillez confirmer votre adresse e-mail avant de vous connecter.");
-        }
-
-        return ResponseEntity.ok(Map.of(
-                "message", "Connexion réussie",
-                "userName", user.getUserName(),
-                "userEmail", user.getUserEmail(),
-                "id",user.getId()));
+    // Rechercher l’utilisateur soit par email, soit par téléphone
+    AppUser user = appUserRepo.findByUserEmail(identifier);
+    if (user == null) {
+        user = appUserRepo.findByUserPhone(identifier);
     }
+
+    // Vérification existence et mot de passe
+    if (user == null || !passwordEncoder.matches(password, user.getUserPassword())) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body("Email/téléphone ou mot de passe incorrect"+identifier+"OK");
+                
+    }
+    // Vérification de l’activation du compte
+    if (!user.isActive()) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body("Veuillez confirmer votre compte avant de vous connecter.");
+    }
+
+    // Connexion réussie
+    return ResponseEntity.ok(Map.of(
+            "message", "Connexion réussie",
+            "userName", user.getUserName(),
+            "userEmail", user.getUserEmail(),
+            "userPhone", user.getUserPhone(),
+            "id", user.getId()
+    ));
+}
+
 
 }

@@ -8,7 +8,11 @@ import io.c4us.masterbackend.domain.AppUser;
 
 public interface AppUserRepo extends JpaRepository<AppUser, String> {
     Optional<AppUser> findByConfirmationToken(String confirmationToken);
+
     Optional<AppUser> findById(String id);
+
     AppUser findByUserEmail(String confirmationToken);
+
+    AppUser findByUserPhone(String phone); // 👈 ajoute cette ligne
 
 }

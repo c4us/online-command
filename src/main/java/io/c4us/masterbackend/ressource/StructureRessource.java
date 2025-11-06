@@ -60,4 +60,11 @@ public class StructureRessource {
     public ResponseEntity<List<Structure>> getByUser(@PathVariable String userId) {
         return ResponseEntity.ok(structureService.getStructuresByUser(userId));
     }
+
+    @GetMapping
+    public ResponseEntity<List<Structure>> getAllStructure() {
+        return ResponseEntity.ok(structureService.getAllStructure());
+    }
+
+
 }

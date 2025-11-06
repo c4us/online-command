@@ -28,8 +28,9 @@ public class AppUser {
     private String userEmail;
     private String userPhone;
     private LocalDateTime createdDate = LocalDateTime.now();
-    private boolean isActive = false;
+    private boolean isActive = true;
     private String userPassword;
     private String confirmationToken; 
     private LocalDateTime tokenExpiryDate;
+    private String userProfile;
 }

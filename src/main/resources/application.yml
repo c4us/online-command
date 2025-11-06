@@ -35,8 +35,8 @@ spring:
     async:
       request-timeout: 3600000
 server:
-  port: 8080
-
+  address: 0.0.0.0   # Écoute sur toutes les interfaces réseau (pas seulement localhost)
+  port: 8080         # Port de ton application (tu peux le changer si besoin)
 management:
   endpoints:
     web:

@@ -74,5 +74,9 @@ public class StructureService {
         return structureRepo.findByCreatedUserId(userId);
     }
 
+    public List<Structure> getAllStructure(){
+        return structureRepo.findAll();
+    }
+
 
 }

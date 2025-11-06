@@ -1,27 +1,31 @@
 package io.c4us.masterbackend.DTOs;
 
-
 public class LoginRequest {
-    private String email;
+
+    private String identifier; // peut être un email ou un téléphone
     private String password;
 
     // Constructeurs
     public LoginRequest() {}
-    public LoginRequest(String email, String password) {
-        this.email = email;
+
+    public LoginRequest(String identifier, String password) {
+        this.identifier = identifier;
         this.password = password;
     }
 
-    // Getters & Setters
-    public String getEmail() {
-        return email;
+    // Getters et Setters
+    public String getIdentifier() {
+        return identifier;
     }
-    public void setEmail(String email) {
-        this.email = email;
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
+
     public String getPassword() {
         return password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }

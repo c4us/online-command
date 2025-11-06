@@ -31,12 +31,17 @@ public class AppUserService {
     private PasswordEncoder passwordEncoder;
 
     public AppUser createAppUser(AppUser user) {
-        user.setConfirmationToken(generateAndSetToken(user));
         user.setUserPassword(passwordEncoder.encode(user.getUserPassword()));
+        user.setConfirmationToken(generateAndSetToken(user));
         appUserRepo.save(user);
+        if (!user.getUserProfile().equals("MOBILE")) {
+            emailService.sendConfirmationEmail(user);
+            user.setActive(false);
+        }
         AppUser users = appUserRepo.save(user);
-        emailService.sendConfirmationEmail(user);
+
         return users;
+
     }
 
     public String generateAndSetToken(AppUser user) {
